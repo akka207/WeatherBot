@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using System.Data;
-using System.Runtime.CompilerServices;
 using WeatherBot.API.Models;
 
 namespace WeatherBot.API.Services
@@ -27,7 +26,7 @@ namespace WeatherBot.API.Services
             return users;
         }
 
-        public async Task<User> ReadUserAsync(int id)
+        public async Task<User> ReadUserAsync(long id)
         {
             var sql = $"SELECT * FROM Users U WHERE U.Id={id}";
             User user = (await _connection.QueryAsync<User>(sql)).FirstOrDefault();
@@ -37,9 +36,19 @@ namespace WeatherBot.API.Services
             return user;
         }
 
-        public async Task SaveUserAsync(User user)
+        public async Task SaveOrUpdateUserAsync(User user)
         {
-            var sql = "INSERT INTO Users (Username) VALUES (@Username)";
+            List<User> users = await ReadAllUsersAsync();
+
+            string sql;
+            if (users.Any(u => u.Id == user.Id))
+            {
+                sql = $"UPDATE Users SET SelectedCity=@SelectedCity WHERE Id=@Id";
+            }
+            else
+            {
+                sql = "INSERT INTO Users (Id, SelectedCity, ChatId) VALUES (@Id, @SelectedCity, @ChatId)";
+            }
             await _connection.ExecuteAsync(sql, user);
         }
 
@@ -62,7 +71,7 @@ namespace WeatherBot.API.Services
 
         public async Task SaveWeatherHistoryItemAsync(WeatherHistoryItem item)
         {
-            var sql = "INSERT INTO WeatherHistory (Date, Query, UserId) VALUES (@Date,@Query,@UserId)";
+            var sql = "INSERT INTO WeatherHistory (Date, Query, UserId) VALUES (@Date, @Query, @UserId)";
             await _connection.ExecuteAsync(sql, item);
         }
 

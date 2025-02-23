@@ -1,6 +1,6 @@
 using System.Data;
 using System.Data.SqlClient;
-using WeatherBot.API.Services;
+using WeatherBot.API.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 

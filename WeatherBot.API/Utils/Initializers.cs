@@ -1,8 +1,9 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System.ComponentModel;
+using WeatherBot.API.Services;
 
-namespace WeatherBot.API.Services
+namespace WeatherBot.API.Utils
 {
     public static class Initializers
     {
@@ -26,8 +27,7 @@ namespace WeatherBot.API.Services
         public static void AddTelegramBot(this IServiceCollection services)
         {
             services.AddSingleton<TelegramClientService>();
-            var provider = services.BuildServiceProvider();
-            provider.GetRequiredService<TelegramClientService>().Configure();
+            services.AddHostedService<TelegramClientService>();
         }
     }
 }

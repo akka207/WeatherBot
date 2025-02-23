@@ -20,9 +20,17 @@ namespace WeatherBot.API.Services
         public async Task<string> GetMessageAsync(params string[] strings)
         {
             string city = strings[0];
-            GeocodingCityModel geocodingCity = await _geocodingService.GetCityModelAsync(city);
-            CurrentWeatherCityModel model = await _currentWeatherService.GetCityModelAsync(geocodingCity);
-            
+            GeocodingCityModel? geocodingCity = await _geocodingService.GetCityModelAsync(city);
+            if (geocodingCity == null)
+            {
+                return "City not found";
+            }
+            CurrentWeatherCityModel? model = await _currentWeatherService.GetCityModelAsync(geocodingCity);
+            if (model == null)
+            {
+                return "Weather not found";
+            }
+
             string uniteWeathers = "";
             foreach (Weather weather in model.Weathers)
             {
@@ -33,8 +41,8 @@ namespace WeatherBot.API.Services
                 $"<b>Weather for <u>{city}</u></b>\n" +
                 $"{Math.Round(_unitsConvertor.KelvinToCelsius(model.Main.Temp))}°C " +
                 $"(feels like {Math.Round(_unitsConvertor.KelvinToCelsius(model.Main.FeelsLike))}°C)\n" +
-                $"{uniteWeathers}" +
-                $"Wind: {model.Wind.Speed}m/s {_unitsConvertor.DegreeToDirection(model.Wind.Deg)}\n" +
+                $"Weather: {uniteWeathers}" +
+                $"Wind: {model.Wind.Speed}m/s \"{_unitsConvertor.DegreeToDirection(model.Wind.Deg)}\"\n" +
                 $"Clouds: {model.Clouds.All}%";
         }
     }

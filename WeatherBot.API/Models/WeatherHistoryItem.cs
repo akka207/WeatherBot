@@ -8,6 +8,6 @@ namespace WeatherBot.API.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string Query { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

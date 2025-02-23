@@ -11,14 +11,17 @@ namespace WeatherBot.API.Controllers
         private readonly GeocodingService _geocodingService;
         private readonly CurrentWeatherService _currentWeatherService;
         private readonly DBQueryService _dBQueryService;
+        private readonly TelegramClientService _telegramClientService;
 
         public UsersController(GeocodingService geocodingService,
             CurrentWeatherService currentWeatherService,
-            DBQueryService dBQueryService)
+            DBQueryService dBQueryService,
+            TelegramClientService telegramClientService)
         {
             _geocodingService = geocodingService;
             _currentWeatherService = currentWeatherService;
             _dBQueryService = dBQueryService;
+            _telegramClientService = telegramClientService;
         }
 
 
@@ -37,7 +40,13 @@ namespace WeatherBot.API.Controllers
         [HttpPost(Name = "PostUser")]
         public async Task PostUserAsync([FromBody] User user)
         {
-            await _dBQueryService.SaveUserAsync(user);
+            await _dBQueryService.SaveOrUpdateUserAsync(user);
+        }
+
+        [HttpPost("sendWeatherToAll", Name = "Send weather to all")]
+        public async Task PostWeatherAsync()
+        {
+            await _telegramClientService.BroadcastWeatherMessage();
         }
     }
 }
