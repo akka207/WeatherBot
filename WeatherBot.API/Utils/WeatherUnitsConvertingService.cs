@@ -1,13 +1,13 @@
-﻿namespace WeatherBot.API.Services
+﻿namespace WeatherBot.API.Utils
 {
-    public class WeatherUnitsConvertingService
+    public static class WeatherUnitsConvertingService
     {
-        public float KelvinToCelsius(float kelvin)
+        public static float KelvinToCelsius(float kelvin)
         {
             return kelvin - 272.15f;
         }
 
-        public string DegreeToDirection(float degree)
+        public static string DegreeToDirection(float degree)
         {
             degree %= 360;
             string direction = "";

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using WeatherBot.API.Models;
 
-namespace WeatherBot.API.Services
+namespace WeatherBot.API.Services.Implementations
 {
-    public class CurrentWeatherService
+    public class CurrentWeatherService: ICityWeatherResolver
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;

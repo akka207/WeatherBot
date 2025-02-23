@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WeatherBot.API.Models;
-using WeatherBot.API.Services;
+using WeatherBot.API.Services.Implementations;
 
 namespace WeatherBot.API.Controllers
 {
@@ -8,18 +8,12 @@ namespace WeatherBot.API.Controllers
     [Route("users")]
     public class UsersController : ControllerBase
     {
-        private readonly GeocodingService _geocodingService;
-        private readonly CurrentWeatherService _currentWeatherService;
         private readonly DBQueryService _dBQueryService;
         private readonly TelegramClientService _telegramClientService;
 
-        public UsersController(GeocodingService geocodingService,
-            CurrentWeatherService currentWeatherService,
-            DBQueryService dBQueryService,
+        public UsersController(DBQueryService dBQueryService,
             TelegramClientService telegramClientService)
         {
-            _geocodingService = geocodingService;
-            _currentWeatherService = currentWeatherService;
             _dBQueryService = dBQueryService;
             _telegramClientService = telegramClientService;
         }

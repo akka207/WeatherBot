@@ -2,6 +2,7 @@
 using System.Data;
 using System.ComponentModel;
 using WeatherBot.API.Services;
+using WeatherBot.API.Services.Implementations;
 
 namespace WeatherBot.API.Utils
 {
@@ -18,10 +19,9 @@ namespace WeatherBot.API.Utils
 
         public static void AddWeatherServices(this IServiceCollection services)
         {
-            services.AddSingleton<GeocodingService>();
-            services.AddSingleton<CurrentWeatherService>();
-            services.AddSingleton<WeatherUnitsConvertingService>();
-            services.AddSingleton<WeatherReportCreationService>();
+            services.AddSingleton<ICityLocationResolver, GeocodingService>();
+            services.AddSingleton<ICityWeatherResolver, CurrentWeatherService>();
+            services.AddSingleton<IMessageCreator, WeatherReportCreationService>();
         }
 
         public static void AddTelegramBot(this IServiceCollection services)

@@ -7,22 +7,22 @@ using System.Text.RegularExpressions;
 using WeatherBot.API.Utils;
 using WeatherBot.API.Models;
 
-namespace WeatherBot.API.Services
+namespace WeatherBot.API.Services.Implementations
 {
-    public class TelegramClientService: IHostedService
+    public class TelegramClientService : IHostedService
     {
         private readonly IConfiguration _configuration;
-        private readonly WeatherReportCreationService _weatherReportCreationService;
+        private readonly IMessageCreator _messageCreator;
         private readonly DBQueryService _dbQueryService;
 
         private static TelegramBotClient _bot;
 
         public TelegramClientService(IConfiguration configuration,
-            WeatherReportCreationService weatherReportCreationService,
+            IMessageCreator messageCreator,
             DBQueryService dBQueryService)
         {
             _configuration = configuration;
-            _weatherReportCreationService = weatherReportCreationService;
+            _messageCreator = messageCreator;
             _dbQueryService = dBQueryService;
         }
 
@@ -107,7 +107,7 @@ namespace WeatherBot.API.Services
         private async Task SendMessageAsync(long chatId, long userId, string city)
         {
             await _bot.SendMessage(chatId,
-                    await _weatherReportCreationService.GetMessageAsync(city),
+                    await _messageCreator.GetMessageAsync(city),
                     ParseMode.Html,
                     replyMarkup: new InlineKeyboardButton("Update", $"{city}"));
 

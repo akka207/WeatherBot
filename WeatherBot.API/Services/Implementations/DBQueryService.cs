@@ -2,7 +2,7 @@
 using System.Data;
 using WeatherBot.API.Models;
 
-namespace WeatherBot.API.Services
+namespace WeatherBot.API.Services.Implementations
 {
     public class DBQueryService
     {
@@ -74,7 +74,6 @@ namespace WeatherBot.API.Services
             var sql = "INSERT INTO WeatherHistory (Date, Query, UserId) VALUES (@Date, @Query, @UserId)";
             await _connection.ExecuteAsync(sql, item);
         }
-
 
         private async Task IncludeAsync(User user)
         {
