@@ -14,9 +14,9 @@ create table WeatherHistory(
 	foreign key(UserId) references Users(Id)
 );
 
-drop table WeatherHistory;
-drop table Users;
+--drop table WeatherHistory;
+--drop table Users;
 
-SELECT * FROM Users;
-SELECT * FROM WeatherHistory;
+--SELECT * FROM Users;
+--SELECT * FROM WeatherHistory;
 

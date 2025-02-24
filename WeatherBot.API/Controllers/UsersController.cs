@@ -19,28 +19,22 @@ namespace WeatherBot.API.Controllers
         }
 
 
-        [HttpGet(Name = "GetUsers")]
+        [HttpGet]
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             return await _dBQueryService.ReadAllUsersAsync();
         }
 
-        [HttpGet("{id}", Name = "GetUser")]
+        [HttpGet("{id}")]
         public async Task<User> GetUserAsync(int id)
         {
             return await _dBQueryService.ReadUserAsync(id);
         }
 
-        [HttpPost(Name = "PostUser")]
+        [HttpPost]
         public async Task PostUserAsync([FromBody] User user)
         {
             await _dBQueryService.SaveOrUpdateUserAsync(user);
-        }
-
-        [HttpPost("sendWeatherToAll", Name = "Send weather to all")]
-        public async Task PostWeatherAsync()
-        {
-            await _telegramClientService.BroadcastWeatherMessage();
         }
     }
 }

@@ -16,20 +16,19 @@ namespace WeatherBot.API.Controllers
         }
 
 
-
-        [HttpGet(Name = "GetWeatherHistory")]
+        [HttpGet]
         public async Task<IEnumerable<WeatherHistoryItem>> GetWeatherHistoryAsync()
         {
             return await _dBQueryService.ReadWeatherHistoryAsync();
         }
 
-        [HttpGet("{id}", Name = "GetWeatherHistoryItem")]
+        [HttpGet("{id}")]
         public async Task<WeatherHistoryItem> GetWeatherHistoryItemAsync(int id)
         {
             return await _dBQueryService.ReadWeatherHistoryItemAsync(id);
         }
 
-        [HttpPost(Name = "PostWeatherHistoryItem")]
+        [HttpPost]
         public async Task PostUserAsync([FromBody] WeatherHistoryItem whItem)
         {
             await _dBQueryService.SaveWeatherHistoryItemAsync(whItem);

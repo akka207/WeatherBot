@@ -28,7 +28,7 @@ namespace WeatherBot.API.Services.Implementations
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            var botToken = _configuration["TelegramBotToken"];
+            var botToken = _configuration.GetTelegramBotToken();
 
             using var cts = new CancellationTokenSource();
             _bot = new TelegramBotClient(botToken, cancellationToken: cts.Token);
@@ -54,6 +54,7 @@ namespace WeatherBot.API.Services.Implementations
                 await SendMessageAsync(user.ChatId, user.Id, user.SelectedCity);
             }
         }
+
 
         private async Task OnError(Exception exception, HandleErrorSource source)
         {

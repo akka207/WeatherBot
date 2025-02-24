@@ -1,6 +1,5 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
-using System.ComponentModel;
 using WeatherBot.API.Services;
 using WeatherBot.API.Services.Implementations;
 

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using WeatherBot.API.Models;
+using WeatherBot.API.Utils;
 
 namespace WeatherBot.API.Services.Implementations
 {
@@ -16,9 +17,9 @@ namespace WeatherBot.API.Services.Implementations
 
         public async Task<GeocodingCityModel> GetCityModelAsync(string city)
         {
-            var apiPattern = _configuration["GeocodingAPI"];
-            var appid = _configuration["OpenWeatherAppId"];
-            var url = string.Format(apiPattern ?? "", city, appid);
+            string apiPattern = _configuration.GetOpenWeatherGeocodingApiPatern();
+            string appid = _configuration.GetOpenWeatherAppId();
+            string url = string.Format(apiPattern ?? "", city, appid);
 
             var responce = await _httpClient.GetAsync(url);
             var responceContent = await responce.Content.ReadAsStringAsync();

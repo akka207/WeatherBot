@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddHttpClient();
 
 builder.Services.AddWeatherServices();
-builder.Services.AddDatabase(configuration["MSSQLConnectionString"]);
+builder.Services.AddDatabase(configuration.GetMSSQLConnectionString());
 builder.Services.AddTelegramBot();
 
 var app = builder.Build();
@@ -25,8 +25,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseAuthorization();
 
 app.MapControllers();
 

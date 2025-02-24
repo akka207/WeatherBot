@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 using WeatherBot.API.Models;
+using WeatherBot.API.Utils;
 
 namespace WeatherBot.API.Services.Implementations
 {
-    public class CurrentWeatherService: ICityWeatherResolver
+    public class CurrentWeatherService : ICityWeatherResolver
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
@@ -16,12 +17,12 @@ namespace WeatherBot.API.Services.Implementations
 
         public async Task<CurrentWeatherCityModel> GetCityModelAsync(GeocodingCityModel geocodingCity)
         {
-            var apiPattern = _configuration["CurrentWeatherAPI"];
-            var appid = _configuration["OpenWeatherAppId"];
-            var url = string.Format(apiPattern ?? "", geocodingCity.Lat, geocodingCity.Lon, appid);
+            string apiPattern = _configuration.GetOpenWeatherCurrentWeatherApiPatern();
+            string appid = _configuration.GetOpenWeatherAppId();
+            string url = string.Format(apiPattern ?? "", geocodingCity.Lat, geocodingCity.Lon, appid);
 
             var responce = await _httpClient.GetAsync(url);
-            var responceContent = await responce.Content.ReadAsStringAsync();
+            string responceContent = await responce.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<CurrentWeatherCityModel>(responceContent);
         }
